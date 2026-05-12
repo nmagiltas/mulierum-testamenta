@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mulierum Testamenta — Late Medieval Women's Wills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold-l:#F0DFA0;--gold-d:#8B6914;
+  --ink:#2C1810;--bg:#13100A;--bg2:#1A120A;--bg3:#211808;
+  --surface:rgba(255,252,242,0.04);--surface-h:rgba(255,252,242,0.08);
+  --border:rgba(201,168,76,0.2);--border-h:rgba(201,168,76,0.4);
+  --text:rgba(245,237,214,0.88);--muted:rgba(245,237,214,0.5);--faint:rgba(245,237,214,0.3);
+  --red:#8B1A1A;--red-bg:rgba(139,26,26,0.12);
+  font-family:'EB Garamond',Georgia,serif;
+}
+body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 20%,rgba(201,168,76,0.05) 0%,transparent 55%),radial-gradient(ellipse at 85% 80%,rgba(139,26,26,0.04) 0%,transparent 55%);pointer-events:none;z-index:0}
+
+.app{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:0 1.2rem}
+
+/* HEADER */
+.hdr{text-align:center;padding:1.8rem 1rem 1.4rem;border-bottom:1px solid var(--border);margin-bottom:1.2rem}
+.hdr-orn{font-size:10px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;font-family:'Crimson Pro',serif;font-weight:300;margin-bottom:5px}
+.hdr h1{font-size:30px;font-weight:500;color:var(--gold-l);font-style:italic;margin-bottom:4px}
+.hdr-sub{font-size:12px;color:rgba(201,168,76,0.5);font-family:'Crimson Pro',serif;letter-spacing:1px}
+
+/* API KEY BANNER */
+.api-banner{background:rgba(139,26,26,0.15);border:1px solid rgba(139,26,26,0.35);border-radius:8px;padding:.9rem 1.2rem;margin-bottom:1rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.api-banner.ok{background:rgba(20,80,40,0.15);border-color:rgba(40,160,80,0.35)}
+.api-banner input{flex:1;min-width:200px;background:rgba(255,255,255,0.07);border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:6px 10px;color:var(--text);font-family:'Crimson Pro',serif;font-size:13px;outline:none}
+.api-banner input:focus{border-color:var(--gold)}
+.api-status{font-size:12px;color:rgba(255,180,180,0.8);font-family:'Crimson Pro',serif;font-style:italic}
+.api-status.ok{color:rgba(120,220,120,0.8)}
+
+/* NAV */
+.nav{display:flex;gap:3px;margin-bottom:1.2rem;background:rgba(0,0,0,0.35);border-radius:7px;padding:3px;border:1px solid rgba(201,168,76,0.12);flex-wrap:wrap}
+.nbtn{flex:1;min-width:80px;padding:7px 10px;border:none;background:transparent;color:rgba(201,168,76,0.55);font-family:'Crimson Pro',serif;font-size:13px;cursor:pointer;border-radius:5px;transition:all .2s;white-space:nowrap}
+.nbtn:hover{color:var(--gold);background:rgba(201,168,76,0.08)}
+.nbtn.on{background:rgba(201,168,76,0.14);color:var(--gold-l);border:1px solid rgba(201,168,76,0.28)}
+
+/* PANELS */
+.panel{display:none}.panel.on{display:block}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:1.1rem 1.2rem;margin-bottom:.9rem}
+.ctitle{font-size:10px;color:var(--gold);font-family:'Crimson Pro',serif;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:.8rem;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,0.12)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:.9rem}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}.nav{gap:2px}.nbtn{font-size:11px;padding:6px 7px}}
+
+/* STATS */
+.scard{background:rgba(201,168,76,0.06);border:1px solid var(--border);border-radius:8px;padding:.9rem;text-align:center}
+.snum{font-size:26px;font-weight:500;color:var(--gold-l);line-height:1;margin-bottom:3px}
+.slbl{font-size:10px;color:rgba(201,168,76,0.55);font-family:'Crimson Pro',serif;letter-spacing:1.5px;text-transform:uppercase}
+
+/* BARS */
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.blbl{font-size:13px;color:var(--text);min-width:130px;font-style:italic}
+.bwrap{flex:1;height:5px;background:rgba(201,168,76,0.1);border-radius:3px;overflow:hidden}
+.bfill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold));border-radius:3px;transition:width .5s}
+.bcnt{font-size:11px;color:rgba(201,168,76,0.6);min-width:26px;text-align:right;font-family:'Crimson Pro',serif}
+
+/* FORM */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.fgrp{display:flex;flex-direction:column;gap:4px}.fgrp.full{grid-column:1/-1}
+label{font-size:10px;color:var(--gold);font-family:'Crimson Pro',serif;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+input,select,textarea{background:rgba(255,252,242,0.06);border:1px solid rgba(201,168,76,0.22);border-radius:5px;padding:7px 10px;color:var(--text);font-family:'EB Garamond',serif;font-size:14px;outline:none;transition:border-color .2s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:rgba(201,168,76,0.55);background:rgba(255,252,242,0.09)}
+select option{background:#1A120A}
+textarea{min-height:70px;resize:vertical}
+
+/* BUTTONS */
+.btn{padding:8px 18px;border-radius:5px;font-family:'Crimson Pro',serif;font-size:14px;cursor:pointer;transition:all .2s;letter-spacing:.3px;border:1px solid rgba(201,168,76,0.35);background:rgba(201,168,76,0.1);color:var(--gold-l)}
+.btn:hover{background:rgba(201,168,76,0.2)}
+.btn-p{background:rgba(201,168,76,0.18);border-color:var(--gold)}
+.btn-p:hover{background:rgba(201,168,76,0.3)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-d{border-color:rgba(139,26,26,0.45);background:rgba(139,26,26,0.1);color:rgba(255,185,185,0.8)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:.8rem}
+
+/* WILLS */
+.wlist{display:flex;flex-direction:column;gap:7px}
+.witem{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:11px 14px;cursor:pointer;transition:all .2s}
+.witem:hover{border-color:var(--border-h);background:var(--surface-h)}
+.wihead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px}
+.wname{font-size:15px;color:var(--gold-l);font-style:italic}
+.wmeta{display:flex;gap:7px;font-size:10px;color:rgba(201,168,76,0.55);font-family:'Crimson Pro',serif;flex-wrap:wrap}
+.wprev{font-size:12px;color:var(--muted);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{padding:2px 7px;border-radius:3px;font-size:10px;font-family:'Crimson Pro',serif;border:1px solid}
+.bw{background:rgba(139,26,26,0.12);color:#E8A0A0;border-color:rgba(139,26,26,0.3)}
+.bm{background:rgba(44,24,16,0.3);color:#D4A870;border-color:rgba(201,168,76,0.3)}
+.bs{background:rgba(30,60,90,0.2);color:#90B8D8;border-color:rgba(90,150,200,0.3)}
+.sbar{display:flex;gap:7px;margin-bottom:.9rem}
+.sbar input{flex:1}
+.frow{display:flex;gap:7px;margin-bottom:.9rem;flex-wrap:wrap}
+.frow select{flex:1;min-width:110px}
+
+/* MODAL */
+.mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+.mov.open{display:flex}
+.modal{background:#1C140C;border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:1.4rem;max-width:680px;width:100%;margin:auto}
+.mhdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.1rem;padding-bottom:.9rem;border-bottom:1px solid rgba(201,168,76,0.15)}
+.mtitle{font-size:20px;color:var(--gold-l);font-style:italic}
+.mclose{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
+.mclose:hover{color:var(--gold-l)}
+.dsect{margin-bottom:1rem}
+.dstitle{font-size:10px;color:var(--gold);font-family:'Crimson Pro',serif;letter-spacing:2px;text-transform:uppercase;margin-bottom:.5rem;font-weight:600}
+.btag{display:inline-block;padding:3px 9px;margin:2px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.18);border-radius:3px;font-size:12px;color:var(--muted);font-style:italic}
+.rtag{display:inline-block;padding:3px 9px;margin:2px;background:rgba(139,26,26,0.1);border:1px solid rgba(139,26,26,0.22);border-radius:3px;font-size:12px;color:rgba(255,200,200,0.75)}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed rgba(201,168,76,0.3);border-radius:9px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:.9rem;position:relative;background:rgba(201,168,76,0.03)}
+.upload-zone:hover,.upload-zone.drag{border-color:rgba(201,168,76,0.6);background:rgba(201,168,76,0.06)}
+#fileInput{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:36px;margin-bottom:8px;display:block}
+.upload-text{font-size:15px;color:rgba(201,168,76,0.6);font-style:italic}
+.upload-sub{font-size:11px;color:var(--faint);font-family:'Crimson Pro',serif;margin-top:4px}
+
+/* AI RESULT */
+.ai-result{background:rgba(0,0,0,0.3);border:1px solid rgba(201,168,76,0.15);border-radius:7px;padding:1rem;margin-top:.8rem;font-size:13px;color:var(--muted);line-height:1.8;font-style:italic;min-height:70px}
+.lbar{height:3px;background:rgba(201,168,76,0.1);border-radius:2px;overflow:hidden;margin:.5rem 0}
+.lfill{height:100%;background:var(--gold);width:0%;transition:width .4s}
+
+/* MAP */
+.map-wrap{position:relative;background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:.9rem}
+#mapSvg{width:100%;display:block}
+.maptip{position:absolute;background:rgba(15,8,3,0.97);border:1px solid rgba(201,168,76,0.4);border-radius:7px;padding:10px 14px;font-size:13px;color:var(--gold-l);pointer-events:none;display:none;z-index:10;min-width:170px;font-style:italic;box-shadow:0 4px 16px rgba(0,0,0,0.5)}
+.map-controls{display:flex;gap:8px;margin-bottom:.8rem;flex-wrap:wrap;align-items:center}
+.map-controls select{max-width:200px}
+.map-legend{display:flex;gap:14px;font-size:11px;color:var(--muted);font-family:'Crimson Pro',serif;flex-wrap:wrap}
+.ldot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:middle}
+
+/* DRILL */
+.drill{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:9px;padding:1.1rem;margin-bottom:.9rem}
+.drill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:.9rem}
+.dstat{background:rgba(0,0,0,0.25);border-radius:7px;padding:.7rem;text-align:center}
+.dstat-n{font-size:22px;font-weight:500;color:var(--gold-l)}
+.dstat-l{font-size:10px;color:rgba(201,168,76,0.5);text-transform:uppercase;letter-spacing:1px;font-family:'Crimson Pro',serif}
+
+/* TABS */
+.trow{display:flex;gap:3px;margin-bottom:.9rem;border-bottom:1px solid rgba(201,168,76,0.13);flex-wrap:wrap}
+.tbtn{padding:6px 14px;background:none;border:none;color:rgba(201,168,76,0.45);font-family:'Crimson Pro',serif;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.tbtn.on{color:var(--gold-l);border-bottom-color:var(--gold)}
+.tbtn:hover{color:var(--gold)}
+.tpanel{display:none}.tpanel.on{display:block}
+
+/* NETWORK */
+.net-wrap{position:relative;height:420px;background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:.9rem}
+#netSvg{width:100%;height:100%}
+.ntip{position:absolute;background:rgba(15,8,3,0.97);border:1px solid rgba(201,168,76,0.38);border-radius:7px;padding:9px 13px;font-size:12px;color:var(--gold-l);pointer-events:none;display:none;z-index:10;max-width:190px;font-style:italic}
+
+/* BEQUESTS */
+.bcat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:.9rem}
+.bcat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.9rem;cursor:pointer;transition:all .2s}
+.bcat:hover{border-color:var(--border-h);background:var(--surface-h)}
+.bcat.sel{border-color:var(--gold);background:rgba(201,168,76,0.09)}
+.bcat-icon{font-size:22px;margin-bottom:5px;display:block}
+.bcat-name{font-size:13px;color:var(--gold-l);font-style:italic;margin-bottom:2px}
+.bcat-sub{font-size:10px;color:rgba(201,168,76,0.45);font-family:'Crimson Pro',serif}
+
+/* INSIGHTS */
+.insight{background:rgba(139,26,26,0.08);border:1px solid rgba(139,26,26,0.2);border-radius:7px;padding:.9rem;margin-bottom:.8rem}
+.ititle{font-size:10px;color:rgba(255,160,160,0.8);font-family:'Crimson Pro',serif;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.4rem}
+.itext{font-size:13px;color:rgba(245,237,214,0.65);line-height:1.7;font-style:italic}
+
+.empty{text-align:center;padding:2rem;color:rgba(201,168,76,0.35);font-style:italic;font-size:14px}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(201,168,76,0.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.divider{height:1px;background:rgba(201,168,76,0.1);margin:.8rem 0}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-orn">◆ Late Medieval England · Worcester & Bristol · 1300–1500 ◆</div>
+  <h1>Mulierum Testamenta</h1>
+  <div class="hdr-sub">Women's Wills Research Platform · AI-Powered Manuscript Analysis</div>
+</div>
+
+<!-- API KEY BANNER -->
+<div class="api-banner" id="apiBanner">
+  <div style="font-size:12px;color:rgba(255,180,180,0.8);font-family:'Crimson Pro',serif;flex:0 0 auto">🔑 Gemini API Key:</div>
+  <input type="password" id="apiKeyInput" placeholder="Paste your AIza… key here" oninput="saveApiKey()">
+  <div class="api-status" id="apiStatus">Not connected — AI features disabled</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nbtn on" onclick="go('overview',this)">Overview</button>
+  <button class="nbtn" onclick="go('upload',this)">Upload & Extract</button>
+  <button class="nbtn" onclick="go('wills',this)">Registry</button>
+  <button class="nbtn" onclick="go('map',this)">Regional Map</button>
+  <button class="nbtn" onclick="go('network',this)">Social Network</button>
+  <button class="nbtn" onclick="go('bequests',this)">Bequests</button>
+  <button class="nbtn" onclick="go('analysis',this)">Analysis</button>
+</nav>
+
+<!-- OVERVIEW -->
+<div class="panel on" id="panel-overview">
+  <div class="grid3" id="statsGrid"></div>
+  <div class="grid2">
+    <div>
+      <div class="card"><div class="ctitle">Marital status distribution</div><div id="statusBars"></div></div>
+      <div class="card"><div class="ctitle">Distribution by decade</div><div id="periodBars"></div></div>
+      <div class="card"><div class="ctitle">Region distribution</div><div id="regionBars"></div></div>
+    </div>
+    <div>
+      <div class="card"><div class="ctitle">Top bequest categories</div><div id="catBars"></div></div>
+      <div class="card">
+        <div class="ctitle">Research notes</div>
+        <textarea id="noteTA" placeholder="Observations, patterns, hypotheses…" style="width:100%;margin-bottom:7px;min-height:70px"></textarea>
+        <button class="btn btn-p btn-sm" onclick="addNote()">Save note</button>
+        <div id="notesList" style="margin-top:9px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPLOAD -->
+<div class="panel" id="panel-upload">
+  <div class="card">
+    <div class="ctitle">Manuscript / document upload</div>
+    <p style="font-size:13px;color:var(--muted);font-style:italic;margin-bottom:1rem">
+      Upload a scanned manuscript image (Latin <em>or</em> Middle English handwriting). The AI will transcribe the handwriting, translate if needed, and extract all data automatically — no manual entry required.
+    </p>
+    <div class="upload-zone" id="dropZone">
+      <input type="file" id="fileInput" accept="image/*,.txt" onchange="handleFile(event)">
+      <span class="upload-icon">📜</span>
+      <div class="upload-text">Drop manuscript image here, or click to browse</div>
+      <div class="upload-sub">Supports JPG, PNG, TIFF · Latin & Middle English handwriting · Max 10MB</div>
+    </div>
+    <div style="text-align:center;font-size:12px;color:var(--faint);margin-bottom:.8rem;font-family:'Crimson Pro',serif">— or paste transcribed / typed text directly —</div>
+    <textarea id="pasteText" placeholder="Paste Latin or Middle English will text here…&#10;&#10;Example: In nomine Dei Amen. Ego Agnes de Morley vidua compos mentis mee facio testamentum meum…" style="width:100%;min-height:110px;margin-bottom:.8rem"></textarea>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-p" onclick="extractFromText()">⚡ Extract & translate</button>
+      <button class="btn btn-sm" onclick="document.getElementById('pasteText').value=LATIN_SAMPLE">Load sample Latin</button>
+      <button class="btn btn-sm" onclick="document.getElementById('pasteText').value=ME_SAMPLE">Load sample Middle English</button>
+    </div>
+    <div class="lbar"><div class="lfill" id="extractFill"></div></div>
+    <div class="ai-result" id="extractResult" style="display:none"></div>
+    <div id="extractedPreview" style="display:none;margin-top:1rem">
+      <div class="ctitle" style="margin-bottom:.8rem">Extracted data — review & confirm</div>
+      <div class="fgrid" id="extractedFields"></div>
+      <div class="btn-row">
+        <button class="btn btn-p" onclick="saveExtracted()">✓ Add to registry</button>
+        <button class="btn btn-sm" onclick="document.getElementById('extractedPreview').style.display='none'">Discard</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle">Standalone Latin / Middle English translation</div>
+    <textarea id="latinIn" placeholder="Paste any Latin or Middle English passage for translation and annotation…" style="width:100%;margin-bottom:.7rem;min-height:90px"></textarea>
+    <button class="btn btn-p btn-sm" onclick="translateLatin()">Translate & annotate</button>
+    <div class="ai-result" id="latinResult" style="display:none;margin-top:.7rem"></div>
+  </div>
+</div>
+
+<!-- REGISTRY -->
+<div class="panel" id="panel-wills">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;flex-wrap:wrap;gap:8px">
+    <div style="font-size:20px;color:var(--gold-l);font-style:italic">Wills Registry</div>
+    <button class="btn btn-p" onclick="openAdd()">＋ Add will manually</button>
+  </div>
+  <div class="sbar"><input type="text" id="searchIn" placeholder="Search name, place, year, bequest, recipient…" oninput="renderWills()"></div>
+  <div class="frow">
+    <select id="fStatus" onchange="renderWills()"><option value="">All statuses</option><option>Widow</option><option>Wife</option><option>Single</option><option>Unknown</option></select>
+    <select id="fRegion" onchange="renderWills()"><option value="">All regions</option><option>Worcester</option><option>Bristol</option><option>Hereford</option><option>Gloucester</option><option>Other</option></select>
+    <select id="fClass" onchange="renderWills()"><option value="">All classes</option><option>Gentry</option><option>Merchant</option><option>Craft</option><option>Peasant</option><option>Unknown</option></select>
+    <select id="fLang" onchange="renderWills()"><option value="">All languages</option><option>Latin</option><option>Middle English</option><option>Mixed</option></select>
+    <select id="fGender" onchange="renderWills()"><option value="">All genders</option><option>Female</option><option>Male</option></select>
+  </div>
+  <div class="wlist" id="willList"></div>
+</div>
+
+<!-- MAP -->
+<div class="panel" id="panel-map">
+  <div class="map-controls">
+    <select id="mapLayer" onchange="renderMap()">
+      <option value="total">Total wills</option>
+      <option value="women">Women's wills</option>
+      <option value="men">Men's wills</option>
+      <option value="widow">Widows</option>
+      <option value="wife">Wives</option>
+      <option value="single">Single women</option>
+      <option value="gentry">Gentry class</option>
+      <option value="merchant">Merchant class</option>
+      <option value="craft">Craft class</option>
+      <option value="church">Church bequests</option>
+      <option value="latin">Latin wills</option>
+    </select>
+    <div class="map-legend">
+      <span><span class="ldot" style="background:rgba(201,168,76,0.3)"></span>Low</span>
+      <span><span class="ldot" style="background:rgba(201,168,76,0.7)"></span>Medium</span>
+      <span><span class="ldot" style="background:#C9A84C"></span>High</span>
+    </div>
+    <button class="btn btn-sm" onclick="closeDrill()">Clear selection</button>
+  </div>
+  <div class="map-wrap">
+    <svg id="mapSvg" viewBox="0 0 560 480"></svg>
+    <div class="maptip" id="mapTip"></div>
+  </div>
+  <div id="drillPanel" style="display:none" class="drill">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+      <div style="font-size:18px;color:var(--gold-l);font-style:italic" id="drillTitle"></div>
+      <button class="btn btn-sm" onclick="closeDrill()">✕ Close</button>
+    </div>
+    <div class="drill-grid" id="drillStats"></div>
+    <div class="trow">
+      <button class="tbtn on" onclick="showDTab('gender',this)">Gender split</button>
+      <button class="tbtn" onclick="showDTab('status',this)">Marital status</button>
+      <button class="tbtn" onclick="showDTab('class',this)">Social class</button>
+      <button class="tbtn" onclick="showDTab('decade',this)">By decade</button>
+      <button class="tbtn" onclick="showDTab('bequests',this)">Top bequests</button>
+      <button class="tbtn" onclick="showDTab('wills',this)">All wills</button>
+    </div>
+    <div id="drillContent"></div>
+    <div class="btn-row">
+      <button class="btn btn-sm" onclick="aiRegionAnalysis()">↗ AI regional analysis</button>
+    </div>
+    <div class="ai-result" id="drillAI" style="display:none;margin-top:.8rem"></div>
+  </div>
+</div>
+
+<!-- NETWORK -->
+<div class="panel" id="panel-network">
+  <div style="display:flex;gap:8px;margin-bottom:.8rem;flex-wrap:wrap;align-items:center">
+    <select id="netType" onchange="renderNetwork()">
+      <option value="all">All connections</option>
+      <option value="family">Family ties only</option>
+      <option value="institution">Institutional ties only</option>
+    </select>
+    <div class="map-legend">
+      <span><span class="ldot" style="background:#C9A84C"></span>Testator</span>
+      <span><span class="ldot" style="background:#E8A0A0"></span>Individual</span>
+      <span><span class="ldot" style="background:#90B8D8"></span>Institution</span>
+      <span><span class="ldot" style="background:#98D898"></span>Church</span>
+    </div>
+  </div>
+  <div class="net-wrap"><svg id="netSvg"></svg><div class="ntip" id="nTip"></div></div>
+  <div class="grid3" id="netStats"></div>
+</div>
+
+<!-- BEQUESTS -->
+<div class="panel" id="panel-bequests">
+  <div class="trow">
+    <button class="tbtn on" onclick="showBTab('cats',this)">Categories</button>
+    <button class="tbtn" onclick="showBTab('items',this)">All items</button>
+    <button class="tbtn" onclick="showBTab('patterns',this)">Patterns & connections</button>
+  </div>
+  <div class="tpanel on" id="btab-cats">
+    <div class="bcat-grid" id="bcatGrid"></div>
+    <div id="bcatDetail"></div>
+  </div>
+  <div class="tpanel" id="btab-items">
+    <div class="sbar"><input type="text" id="itemSearch" placeholder="Search items…" oninput="renderItems()"></div>
+    <div id="itemList"></div>
+  </div>
+  <div class="tpanel" id="btab-patterns"><div id="patternPanel"></div></div>
+</div>
+
+<!-- ANALYSIS -->
+<div class="panel" id="panel-analysis">
+  <div class="insight">
+    <div class="ititle">Research scope</div>
+    <div class="itext">403 women's wills from Worcester and Bristol, 1300–1500. Qualitative and quantitative analysis of bequests, recipients, and social networks to illuminate women's agency in Late Medieval England.</div>
+  </div>
+  <div class="grid2" id="analysisCards"></div>
+  <div class="card">
+    <div class="ctitle">Thesis arguments & findings</div>
+    <div id="thesisPoints"></div>
+    <div class="btn-row">
+      <button class="btn btn-sm btn-p" onclick="aiThesis()">↗ Generate thesis arguments</button>
+      <button class="btn btn-sm" onclick="aiHistoriography()">↗ Historiography overview</button>
+    </div>
+    <div class="ai-result" id="analysisAI" style="display:none;margin-top:.8rem"></div>
+  </div>
+</div>
+
+</div><!-- end .app -->
+
+<!-- ADD/EDIT MODAL -->
+<div class="mov" id="addModal">
+  <div class="modal">
+    <div class="mhdr">
+      <div class="mtitle" id="modalT">Add new will</div>
+      <button class="mclose" onclick="closeAdd()">✕</button>
+    </div>
+    <div class="fgrid">
+      <div class="fgrp"><label>Testator name</label><input id="mName" placeholder="e.g. Agnes de Morley"></div>
+      <div class="fgrp"><label>Year</label><input type="number" id="mYear" placeholder="1380" min="1300" max="1500"></div>
+      <div class="fgrp"><label>Gender</label><select id="mGender"><option>Female</option><option>Male</option></select></div>
+      <div class="fgrp"><label>Marital status</label><select id="mStatus"><option>Widow</option><option>Wife</option><option>Single</option><option>Unknown</option></select></div>
+      <div class="fgrp"><label>Region</label><select id="mRegion"><option>Worcester</option><option>Bristol</option><option>Hereford</option><option>Gloucester</option><option>Other</option></select></div>
+      <div class="fgrp"><label>Social class</label><select id="mClass"><option>Gentry</option><option>Merchant</option><option>Craft</option><option>Peasant</option><option>Unknown</option></select></div>
+      <div class="fgrp"><label>Language</label><select id="mLang"><option>Latin</option><option>Middle English</option><option>Mixed</option></select></div>
+      <div class="fgrp"><label>Source reference</label><input id="mRef" placeholder="e.g. WRO 716:093-BA-2302/1"></div>
+      <div class="fgrp full"><label>Recipients (comma separated)</label><input id="mRec" placeholder="Daughter Joan, St Mary's Church, Sister Agnes…"></div>
+      <div class="fgrp full"><label>Bequests (comma separated)</label><input id="mBeq" placeholder="Silver cup, woollen gown, 20 shillings cash…"></div>
+      <div class="fgrp full"><label>Original text / transcription</label><textarea id="mOrig" placeholder="Paste original Latin or Middle English text here…"></textarea></div>
+      <div class="fgrp full"><label>Researcher notes</label><textarea id="mNotes" placeholder="Observations, connections, questions…"></textarea></div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn" onclick="closeAdd()">Cancel</button>
+      <button class="btn btn-p" onclick="saveWill()">Save will</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="mov" id="detModal">
+  <div class="modal">
+    <div class="mhdr">
+      <div>
+        <div class="mtitle" id="detName"></div>
+        <div style="font-size:11px;color:var(--faint);font-family:'Crimson Pro',serif;margin-top:3px" id="detMeta"></div>
+      </div>
+      <div style="display:flex;gap:7px;align-items:center">
+        <button class="btn btn-sm" onclick="editCur()">Edit</button>
+        <button class="mclose" onclick="closeDet()">✕</button>
+      </div>
+    </div>
+    <div id="detContent"></div>
+  </div>
+</div>
+
+<script>
+// ── CONSTANTS ────────────────────────────────────────────────
+const SK='mulierum_v5',NK='mulierum_notes_v5',AK='mulierum_apikey';
+
+const LATIN_SAMPLE=`In nomine Dei Amen. Anno Domini millesimo trecentesimo quadragesimo octavo, ego Agnes de Morley vidua compos mentis mee facio testamentum meum in hunc modum. In primis lego animam meam Deo omnipotenti et corpori meo sepulturam in ecclesia Sanctae Mariae Worcestrie. Item lego ecclesiae predictae unam cuppam argenteam et mantellum laneum coloris caerulei. Item lego Margaretae filiae meae omnes vestes meas et decem solidos in pecunia numerata. Item lego Joannae ancillae meae quinque solidos. Item lego fabricae ecclesiae viginti solidos pro reparatione eiusdem. In cuius rei testimonium sigillum meum apposui.`;
+
+const ME_SAMPLE=`In the name of God Amen. I Margery Hooper of Bristow wydowe beyng of hole mynde and perfite remembraunce make my testament and last wille in maner and forme folwyng. First I bequeth my soule to Almyghty God and my body to be buryed in the churche of All Seyntes in Bristow. Item I geve and bequeth to my doughter Joane my best gowne of russet cloth and my sylver girdel. Item I geve to the churche of All Seyntes xx shillinges for the reparacion therof. Item I bequeth to my servaunt Agnes my secunde bed and the hangynges therto belongyng.`;
+
+const BCATS=[
+  {id:'textile',icon:'🧵',name:'Textile & clothing',sub:'Gowns, mantles, cloth…'},
+  {id:'silver',icon:'🥄',name:'Silver & metalware',sub:'Cups, spoons, basins…'},
+  {id:'church',icon:'⛪',name:'Religious bequests',sub:'Churches, monasteries…'},
+  {id:'land',icon:'🏡',name:'Land & property',sub:'Tenements, rents…'},
+  {id:'cash',icon:'💰',name:'Cash & debts',sub:'Shillings, pence, marks…'},
+  {id:'furniture',icon:'🪑',name:'Furniture & household',sub:'Beds, chests, pots…'},
+  {id:'book',icon:'📖',name:'Books & devotional',sub:'Psalters, Books of Hours…'},
+  {id:'jewelry',icon:'💍',name:'Jewellery & ornaments',sub:'Rings, brooches, pins…'},
+  {id:'food',icon:'🌾',name:'Livestock & foodstuffs',sub:'Cattle, grain, poultry…'},
+  {id:'tools',icon:'⚒️',name:'Tools & trade goods',sub:'Craft implements…'},
+  {id:'other',icon:'📜',name:'Other',sub:'Unclassified items…'},
+];
+
+const REGIONS={
+  Worcester:{cx:300,cy:220,label:'Worcester'},
+  Bristol:{cx:195,cy:295,label:'Bristol'},
+  Hereford:{cx:225,cy:248,label:'Hereford'},
+  Gloucester:{cx:248,cy:278,label:'Gloucester'},
+  Other:{cx:390,cy:155,label:'Other regions'},
+};
+
+const PATTERNS=[
+  {t:'Gender & recipient preference',b:"Women testators overwhelmingly favour female recipients — daughters, sisters, maidservants. This intra-female network is the backbone of women's social economy and is directly visible in the Social Network view."},
+  {t:'Widows & testamentary agency',b:'Widows, freed from coverture, produce significantly longer and more complex wills than wives. They name more recipients, include more categories of goods, and make more independent institutional bequests.'},
+  {t:'Religious giving as social capital',b:'Church and monastic bequests signal social status, maintain institutional relationships, and secure post-mortem commemoration — they function as reputation management, not merely piety.'},
+  {t:'Textiles as female currency',b:'Clothing and cloth bequests circulate almost exclusively between women. A gown or mantle passed from woman to woman is a token of intimacy, economic trust, and social network maintenance.'},
+  {t:'Class & bequest diversity',b:'Gentry women bequeath land, silver, and books; craft women pass tools and household goods; peasant women leave livestock and grain. Class directly structures what women could own and therefore give.'},
+  {t:'Latin vs. Middle English',b:'Latin wills skew earlier and higher-status; Middle English increases after c.1380 and correlates with merchant and craft classes. Language choice is itself a social marker worth mapping.'},
+  {t:'Craft women & occupational inheritance',b:"Craft-class testators bequeathing tools or stock to female apprentices or guild fellows reveals women's occupational inheritance chains — rare but historiographically significant."},
+  {t:'Intra-female gift economies',b:'Cross-referencing recipient names across multiple wills can reveal the same woman appearing as a recipient in several wills — tracing real micro-networks of trust and obligation across the corpus."},
+];
+
+const THESIS=[
+  'Despite legal disadvantage under coverture and ecclesiastical will law, women actively exploited the testamentary arena to exercise posthumous agency over property distribution.',
+  'Marital status (widow > single > wife) is the primary determinant of testamentary scope and complexity, with widows showing the widest and most diverse recipient networks.',
+  'The consistent preference for female recipients reveals a distinct women\'s economy operating within and around the male-dominated legal framework.',
+  'Religious bequests function simultaneously as devotional acts and institutional social capital — securing status, memory, and network connections beyond the household.',
+  'Textile and silver bequests between women encode economic trust, intimacy, and network maintenance in material form.',
+  'Language choice (Latin vs. Middle English) and bequest type together map the social geography of female property ownership in the West Midlands.',
+];
+
+// ── STATE ────────────────────────────────────────────────────
+let wills=[],notes=[],editId=null,curDetId=null,selBCat=null,curRegion=null,apiKey='';
+
+// ── INIT ─────────────────────────────────────────────────────
+function load(){
+  try{wills=JSON.parse(localStorage.getItem(SK)||'[]');notes=JSON.parse(localStorage.getItem(NK)||'[]');apiKey=localStorage.getItem(AK)||'';}catch(e){wills=[];notes=[];}
+  if(!wills.length)seed();
+  if(apiKey){document.getElementById('apiKeyInput').value=apiKey;document.getElementById('apiBanner').classList.add('ok');document.getElementById('apiStatus').classList.add('ok');document.getElementById('apiStatus').textContent='Connected — AI features enabled';}
+}
+function save(){try{localStorage.setItem(SK,JSON.stringify(wills));localStorage.setItem(NK,JSON.stringify(notes));}catch(e){}}
+function gid(){return Date.now()+Math.random();}
+
+function saveApiKey(){
+  apiKey=document.getElementById('apiKeyInput').value.trim();
+  localStorage.setItem(AK,apiKey);
+  const ok=apiKey.length>10;
+  document.getElementById('apiBanner').classList.toggle('ok',ok);
+  document.getElementById('apiStatus').classList.toggle('ok',ok);
+  document.getElementById('apiStatus').textContent=ok?'Connected — AI features enabled':'Not connected — AI features disabled';
+}
+
+function seed(){
+  wills=[
+    {id:1,name:'Agnes de Morley',year:1348,gender:'Female',status:'Widow',region:'Worcester',class:'Merchant',lang:'Latin',ref:'WRO 716:093',recipients:["Daughter Margaret","St Mary's Church","Maidservant Joan","Church fabric fund"],bequests:['Silver cup','Blue woollen mantle','10 shillings','Religious book'],notes:'Black Death period. Unusually extensive religious gift.',cat_ids:['silver','textile','cash','book','church']},
+    {id:2,name:'Margery Hooper',year:1420,gender:'Female',status:'Wife',region:'Bristol',class:'Merchant',lang:'Middle English',ref:'BRO 04026/1',recipients:['Husband John','Church of All Saints','The poor'],bequests:['Red broadcloth','Brass pot','5 shillings'],notes:"Husband's consent obtained — coverture. Cloth merchant family.",cat_ids:['textile','furniture','cash','church']},
+    {id:3,name:'Cecilia Beauchamp',year:1390,gender:'Female',status:'Widow',region:'Worcester',class:'Gentry',lang:'Latin',ref:'WRO 008.7:BA-3590',recipients:['Son William','Priory of Worcester','Maidservant Agnes','Chantry'],bequests:['Messuage in Foregate','Silver chalice','Gold ring','Silk coverlet','40 shillings'],notes:'Beauchamp family. Priory bequest signals status and network.',cat_ids:['land','silver','jewelry','textile','cash','church']},
+    {id:4,name:'Joan Carpenter',year:1465,gender:'Female',status:'Single',region:'Bristol',class:'Craft',lang:'Middle English',ref:'BRO 04026/4',recipients:['Brother Thomas','Guild fellow Eleanor'],bequests:['Carpentry tools','Oak chest','2 shillings'],notes:'Unmarried woman exercising direct testamentary right. Craft inheritance notable.',cat_ids:['tools','furniture','cash']},
+    {id:5,name:'Alice Drayton',year:1310,gender:'Female',status:'Widow',region:'Worcester',class:'Peasant',lang:'Latin',ref:'WRO 716:001',recipients:['Daughter Alice','Parish church'],bequests:['Wool blanket','Bushel of grain','One cow'],notes:'Early period, modest estate. Daughter-priority pattern.',cat_ids:['textile','food','church']},
+    {id:6,name:'Isabella Frome',year:1480,gender:'Female',status:'Wife',region:'Bristol',class:'Gentry',lang:'Latin',ref:'BRO 04026/9',recipients:["Daughter Eleanor","St Augustine's Abbey","Kinswoman Mabel"],bequests:['Silver knife set','Silk mantle','30 shillings','Psalter'],notes:'Abbey bequest demonstrates institutional connections.',cat_ids:['silver','textile','cash','book','church']},
+    {id:7,name:'Thomas Wylde',year:1435,gender:'Male',status:'Unknown',region:'Worcester',class:'Merchant',lang:'Latin',ref:'WRO 716:108',recipients:['Wife Agnes',"St Helen's Church"],bequests:['Tenement in Sidbury','20 shillings'],notes:'Male comparator will.',cat_ids:['land','cash','church']},
+    {id:8,name:'Juliana Burford',year:1355,gender:'Female',status:'Widow',region:'Hereford',class:'Merchant',lang:'Latin',ref:'HRO AL-19/2',recipients:['Sister Katherine','Niece Juliana','Cathedral'],bequests:['Ivory brooch','Fur-trimmed gown','Book of Hours','10 shillings'],notes:'Female recipient network — entirely women except cathedral.',cat_ids:['jewelry','textile','book','cash','church']},
+    {id:9,name:'Eleanor Smyth',year:1490,gender:'Female',status:'Widow',region:'Gloucester',class:'Craft',lang:'Middle English',ref:'GRO D1340/B-4',recipients:['Apprentice Margery','St Mary de Crypt'],bequests:['Blacksmith tools','Iron pot','Leather apron','5 shillings'],notes:'Craft inheritance to female apprentice — rare and significant.',cat_ids:['tools','furniture','cash','church']},
+    {id:10,name:'Maud Brugge',year:1375,gender:'Female',status:'Widow',region:'Bristol',class:'Merchant',lang:'Middle English',ref:'BRO 04026/3',recipients:['Daughter Maud','Son-in-law Richard','St Nicholas Church'],bequests:['Best bed with hangings','Silver girdle','Scarlet gown','15 shillings'],notes:'Mixed gender recipients but daughter takes precedence. Rich merchant household.',cat_ids:['furniture','silver','textile','cash','church']},
+  ];
+  save();
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────
+function go(p,btn){
+  document.querySelectorAll('.panel').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.nbtn').forEach(e=>e.classList.remove('on'));
+  document.getElementById('panel-'+p).classList.add('on');btn.classList.add('on');
+  if(p==='overview')renderOverview();
+  if(p==='wills')renderWills();
+  if(p==='map')renderMap();
+  if(p==='network')renderNetwork();
+  if(p==='bequests')renderBequests();
+  if(p==='analysis')renderAnalysis();
+}
+function showBTab(t,btn){
+  document.querySelectorAll('#panel-bequests .tpanel').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('#panel-bequests .tbtn').forEach(e=>e.classList.remove('on'));
+  document.getElementById('btab-'+t).classList.add('on');btn.classList.add('on');
+  if(t==='items')renderItems();if(t==='patterns')renderPatterns();
+}
+function showDTab(t,btn){
+  document.querySelectorAll('#drillPanel .trow .tbtn').forEach(e=>e.classList.remove('on'));btn.classList.add('on');
+  renderDrillContent(t);
+}
+
+// ── OVERVIEW ─────────────────────────────────────────────────
+function renderOverview(){
+  const tot=wills.length,fem=wills.filter(w=>w.gender==='Female').length;
+  const wid=wills.filter(w=>w.status==='Widow').length;
+  const bq=wills.reduce((s,w)=>s+(w.bequests||[]).length,0);
+  const rc=wills.reduce((s,w)=>s+(w.recipients||[]).length,0);
+  document.getElementById('statsGrid').innerHTML=[
+    {n:tot,l:'Total wills'},{n:fem,l:"Women's wills"},{n:wid,l:'Widows'},
+    {n:rc,l:'Total recipients'},{n:bq,l:'Bequest items'},{n:Math.round(bq/Math.max(tot,1)*10)/10,l:'Avg bequests/will'},
+  ].map(s=>`<div class="scard"><div class="snum">${s.n}</div><div class="slbl">${s.l}</div></div>`).join('');
+
+  bars('statusBars',countBy(wills,'status'),['Widow','Wife','Single','Unknown']);
+  const dec={};wills.forEach(w=>{const d=Math.floor(w.year/10)*10;dec[d]=(dec[d]||0)+1;});
+  barsObj('periodBars',Object.fromEntries(Object.entries(dec).sort(([a],[b])=>+a-+b).map(([k,v])=>[k+'s',v])));
+  barsObj('regionBars',countBy(wills,'region'));
+  const cc={};wills.forEach(w=>(w.cat_ids||[]).forEach(c=>{cc[c]=(cc[c]||0)+1;}));
+  const cm={};BCATS.forEach(c=>cm[c.id]=c.name);
+  barsObj('catBars',Object.fromEntries(Object.entries(cc).sort(([,a],[,b])=>b-a).slice(0,7).map(([k,v])=>[cm[k]||k,v])));
+  renderNotes();
+}
+function countBy(arr,key){const o={};arr.forEach(w=>{o[w[key]]=(o[w[key]]||0)+1;});return o;}
+function bars(id,obj,keys){const vals=keys.map(k=>obj[k]||0);const mx=Math.max(...vals,1);document.getElementById(id).innerHTML=keys.map((k,i)=>`<div class="brow"><div class="blbl">${k}</div><div class="bwrap"><div class="bfill" style="width:${Math.round(vals[i]/mx*100)}%"></div></div><div class="bcnt">${vals[i]}</div></div>`).join('');}
+function barsObj(id,obj){const entries=Object.entries(obj);const mx=Math.max(...entries.map(([,v])=>v),1);document.getElementById(id).innerHTML=entries.map(([k,v])=>`<div class="brow"><div class="blbl">${k}</div><div class="bwrap"><div class="bfill" style="width:${Math.round(v/mx*100)}%"></div></div><div class="bcnt">${v}</div></div>`).join('')||'<div class="empty">No data</div>';}
+
+function addNote(){const t=document.getElementById('noteTA').value.trim();if(!t)return;notes.unshift({id:gid(),text:t,date:new Date().toLocaleDateString('en-GB')});save();document.getElementById('noteTA').value='';renderNotes();}
+function renderNotes(){const el=document.getElementById('notesList');if(!el)return;el.innerHTML=notes.slice(0,6).map(n=>`<div style="padding:6px 0;border-bottom:1px solid rgba(201,168,76,0.1);font-size:12px;color:var(--muted);font-style:italic;display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;color:var(--faint);font-family:'Crimson Pro',serif;white-space:nowrap;margin-top:2px">${n.date}</span>${n.text}</div>`).join('');}
+
+// ── GEMINI API ────────────────────────────────────────────────
+async function callGemini(prompt,imageBase64,imageMime){
+  if(!apiKey)return null;
+  const parts=[];
+  if(imageBase64)parts.push({inline_data:{mime_type:imageMime,data:imageBase64}});
+  parts.push({text:prompt});
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts}]})});
+  const data=await res.json();
+  if(data.error)throw new Error(data.error.message);
+  return data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+}
+
+// ── UPLOAD & EXTRACT ──────────────────────────────────────────
+const dropZone=document.getElementById('dropZone');
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('drag');});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('drag'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('drag');if(e.dataTransfer.files[0])processFile(e.dataTransfer.files[0]);});
+function handleFile(e){if(e.target.files[0])processFile(e.target.files[0]);}
+
+function processFile(file){
+  const reader=new FileReader();
+  reader.onload=async(e)=>{
+    if(file.type.startsWith('image/')){
+      const b64=e.target.result.split(',')[1];
+      await extractFromImage(b64,file.type);
+    }else{
+      document.getElementById('pasteText').value=e.target.result;
+      await extractFromText();
+    }
+  };
+  if(file.type.startsWith('image/'))reader.readAsDataURL(file);
+  else reader.readAsText(file);
+}
+
+const EXTRACT_PROMPT=`You are a palaeographer and medieval historian specialising in Late Medieval English wills (1300–1500), expert in both Latin and Middle English handwriting styles.
+
+Your task:
+1. If this is a manuscript IMAGE: transcribe the handwritten text as accurately as possible
+2. If the text is Latin: translate it fully into modern English
+3. If the text is Middle English: modernise and clarify it
+4. Extract ALL structured data
+
+Return ONLY valid JSON (no markdown, no explanation):
+{
+  "transcription": "full original text as written",
+  "translation": "complete modern English translation or modernisation",
+  "name": "testator full name",
+  "year": 1400,
+  "gender": "Female",
+  "status": "Widow",
+  "region": "Worcester",
+  "class": "Merchant",
+  "lang": "Latin",
+  "ref": "",
+  "recipients": ["all named recipients"],
+  "bequests": ["all bequeathed items with quantities"],
+  "notes": "key historical observations about gender networks, agency markers, class indicators, religious giving patterns, unusual features"
+}
+
+Valid values: gender=Female|Male, status=Widow|Wife|Single|Unknown, region=Worcester|Bristol|Hereford|Gloucester|Other, class=Gentry|Merchant|Craft|Peasant|Unknown, lang=Latin|Middle English|Mixed`;
+
+async function extractFromImage(b64,mtype){
+  const resEl=document.getElementById('extractResult'),bar=document.getElementById('extractFill');
+  resEl.style.display='block';resEl.innerHTML='<span class="spin"></span>Reading manuscript handwriting via AI…';bar.style.width='20%';
+  if(!apiKey){resEl.innerHTML='⚠ Please enter your Gemini API key in the banner at the top of the page.';bar.style.width='0%';return;}
+  try{
+    bar.style.width='50%';
+    const text=await callGemini(EXTRACT_PROMPT,b64,mtype);
+    bar.style.width='85%';
+    processExtracted(text,resEl,bar);
+  }catch(err){resEl.innerHTML='Error reading image: '+err.message;bar.style.width='0%';}
+}
+
+async function extractFromText(){
+  const txt=document.getElementById('pasteText').value.trim();
+  if(!txt){alert('Please paste will text or upload a document.');return;}
+  const resEl=document.getElementById('extractResult'),bar=document.getElementById('extractFill');
+  resEl.style.display='block';resEl.innerHTML='<span class="spin"></span>Translating and extracting data…';bar.style.width='20%';
+  if(!apiKey){resEl.innerHTML='⚠ Please enter your Gemini API key in the banner at the top of the page.';bar.style.width='0%';return;}
+  try{
+    bar.style.width='45%';
+    const text=await callGemini(EXTRACT_PROMPT+'\n\nWill text:\n'+txt);
+    bar.style.width='85%';
+    processExtracted(text,resEl,bar);
+  }catch(err){resEl.innerHTML='Error: '+err.message;bar.style.width='0%';}
+}
+
+function processExtracted(text,resEl,bar){
+  bar.style.width='100%';
+  try{
+    const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());
+    resEl.innerHTML=`<strong style="color:var(--gold-l)">✓ Extraction complete</strong><br><br><em>${(parsed.translation||parsed.transcription||'').substring(0,320)}…</em>`;
+    showExtractedPreview(parsed);
+  }catch(e){
+    resEl.innerHTML=`<strong>Transcription / translation result:</strong><br><br><em>${text.substring(0,600)}</em>`;
+  }
+  setTimeout(()=>bar.style.width='0%',1000);
+}
+
+function showExtractedPreview(d){
+  const sel=(id,val,opts)=>`<select id="${id}">${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select>`;
+  document.getElementById('extractedFields').innerHTML=`
+    <div class="fgrp"><label>Testator name</label><input id="ex_name" value="${d.name||''}"></div>
+    <div class="fgrp"><label>Year</label><input type="number" id="ex_year" value="${d.year||1400}" min="1300" max="1500"></div>
+    <div class="fgrp"><label>Gender</label>${sel('ex_gender',d.gender,['Female','Male'])}</div>
+    <div class="fgrp"><label>Marital status</label>${sel('ex_status',d.status,['Widow','Wife','Single','Unknown'])}</div>
+    <div class="fgrp"><label>Region</label>${sel('ex_region',d.region,['Worcester','Bristol','Hereford','Gloucester','Other'])}</div>
+    <div class="fgrp"><label>Social class</label>${sel('ex_class',d.class,['Gentry','Merchant','Craft','Peasant','Unknown'])}</div>
+    <div class="fgrp"><label>Language</label>${sel('ex_lang',d.lang,['Latin','Middle English','Mixed'])}</div>
+    <div class="fgrp"><label>Source reference</label><input id="ex_ref" value="${d.ref||''}"></div>
+    <div class="fgrp full"><label>Recipients</label><input id="ex_rec" value="${(d.recipients||[]).join(', ')}"></div>
+    <div class="fgrp full"><label>Bequests</label><input id="ex_beq" value="${(d.bequests||[]).join(', ')}"></div>
+    <div class="fgrp full"><label>Researcher notes</label><textarea id="ex_notes">${d.notes||''}</textarea></div>`;
+  document.getElementById('extractedPreview').style.display='block';
+}
+
+function saveExtracted(){
+  const bList=(document.getElementById('ex_beq').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const rList=(document.getElementById('ex_rec').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  wills.push({id:gid(),name:document.getElementById('ex_name').value,year:parseInt(document.getElementById('ex_year').value)||1400,gender:document.getElementById('ex_gender').value,status:document.getElementById('ex_status').value,region:document.getElementById('ex_region').value,class:document.getElementById('ex_class').value,lang:document.getElementById('ex_lang').value,ref:document.getElementById('ex_ref').value,recipients:rList,bequests:bList,notes:document.getElementById('ex_notes').value,cat_ids:autoCat(bList)});
+  save();document.getElementById('extractedPreview').style.display='none';
+  alert('Will added to registry successfully!');
+}
+
+async function translateLatin(){
+  const txt=document.getElementById('latinIn').value.trim();if(!txt)return;
+  const resEl=document.getElementById('latinResult');resEl.style.display='block';resEl.innerHTML='<span class="spin"></span>Translating…';
+  if(!apiKey){resEl.innerHTML='⚠ Please enter your Gemini API key.';return;}
+  try{
+    const text=await callGemini(`You are an expert in medieval Latin and Middle English, specialising in 14th–15th century English wills. Translate or modernise the following text into clear modern English. Also note any significant legal formulae, diplomatic phrases, or historically interesting features.\n\nText:\n${txt}`);
+    resEl.innerHTML=text.replace(/\n/g,'<br>');
+  }catch(e){resEl.innerHTML='Translation error: '+e.message;}
+}
+
+// ── AUTO-CATEGORISE ───────────────────────────────────────────
+function autoCat(bList){
+  const cm={
+    textile:['gown','mantle','cloth','wool','silk','linen','coverlet','robe','garment','dress','veil','fabric','russet','scarlet','surcoat','kirtle'],
+    silver:['silver','cup','spoon','basin','bowl','chalice','knife','plate','dish','goblet','salt'],
+    church:['church','priory','abbey','monastery','chantry','poor','fabric','chaplain','mass','altar','cathedral','souls'],
+    land:['tenement','messuage','land','house','rent','farm','close','garden','field','croft'],
+    cash:['shilling','penny','pence','mark','pound','money','debt','cash','solidos','denarios'],
+    furniture:['chest','bed','pot','pan','brass','table','chair','board','barrel','linen','hanging','coverlet'],
+    book:['book','psalter','missal','hours','bible','primer','legend','breviary'],
+    jewelry:['ring','brooch','pin','necklace','bracelet','jewel','bead','clasp','girdle','coral'],
+    food:['cow','ox','grain','corn','sheep','horse','poultry','pig','bushel','cattle'],
+    tools:['tool','implement','anvil','loom','hammer','saw','leather','apron'],
+  };
+  const cats=new Set();
+  bList.forEach(b=>{const bl=b.toLowerCase();Object.entries(cm).forEach(([cat,kws])=>{if(kws.some(kw=>bl.includes(kw)))cats.add(cat);});});
+  if(!cats.size)cats.add('other');return[...cats];
+}
+
+// ── REGISTRY ─────────────────────────────────────────────────
+function renderWills(){
+  const q=(document.getElementById('searchIn')||{}).value||'';
+  const fs=(document.getElementById('fStatus')||{}).value||'';
+  const fr=(document.getElementById('fRegion')||{}).value||'';
+  const fc=(document.getElementById('fClass')||{}).value||'';
+  const fl=(document.getElementById('fLang')||{}).value||'';
+  const fg=(document.getElementById('fGender')||{}).value||'';
+  const f=wills.filter(w=>{
+    const sq=q.toLowerCase();
+    const m=!q||[w.name,String(w.year),w.ref||'',w.region,(w.bequests||[]).join(' '),(w.recipients||[]).join(' ')].some(s=>s.toLowerCase().includes(sq));
+    return m&&(!fs||w.status===fs)&&(!fr||w.region===fr)&&(!fc||w.class===fc)&&(!fl||w.lang===fl)&&(!fg||w.gender===fg);
+  });
+  const bm={Widow:'bw',Wife:'bm',Single:'bs'};
+  document.getElementById('willList').innerHTML=f.length?f.map(w=>`<div class="witem" onclick="openDet(${w.id})"><div class="wihead"><div class="wname">${w.name}</div><div class="wmeta"><span>${w.year}</span><span class="badge ${bm[w.status]||'bm'}">${w.status}</span><span>${w.region}</span><span>${w.gender}</span><span style="opacity:.6">${w.lang||''}</span></div></div><div class="wprev">${(w.bequests||[]).join(' · ')||'No bequests recorded'}</div></div>`).join(''):'<div class="empty">No wills match your filters.</div>';
+}
+
+function openAdd(){editId=null;document.getElementById('modalT').textContent='Add new will';['mName','mRef','mNotes','mOrig'].forEach(i=>document.getElementById(i).value='');document.getElementById('mYear').value='';document.getElementById('mRec').value='';document.getElementById('mBeq').value='';document.getElementById('addModal').classList.add('open');}
+function closeAdd(){document.getElementById('addModal').classList.remove('open');}
+function saveWill(){
+  const name=document.getElementById('mName').value.trim();if(!name)return alert('Name is required.');
+  const bList=(document.getElementById('mBeq').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const rList=(document.getElementById('mRec').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const obj={id:editId||gid(),name,year:parseInt(document.getElementById('mYear').value)||1400,gender:document.getElementById('mGender').value,status:document.getElementById('mStatus').value,region:document.getElementById('mRegion').value,class:document.getElementById('mClass').value,lang:document.getElementById('mLang').value,ref:document.getElementById('mRef').value,recipients:rList,bequests:bList,notes:document.getElementById('mNotes').value,orig:document.getElementById('mOrig').value,cat_ids:autoCat(bList)};
+  if(editId){const i=wills.findIndex(w=>w.id===editId);if(i>=0)wills[i]=obj;}else wills.push(obj);
+  save();closeAdd();renderWills();renderOverview();
+}
+
+function openDet(id){
+  const w=wills.find(x=>x.id===id);if(!w)return;curDetId=id;
+  document.getElementById('detName').textContent=w.name;
+  document.getElementById('detMeta').textContent=`${w.year} · ${w.region} · ${w.status} · ${w.gender} · ${w.class} · ${w.lang||''} · ${w.ref||''}`;
+  document.getElementById('detContent').innerHTML=`
+    <div class="dsect"><div class="dstitle">Bequests</div><div>${(w.bequests||[]).map(b=>`<span class="btag">${b}</span>`).join('')||'<span style="color:var(--faint);font-size:13px">None recorded</span>'}</div></div>
+    <div class="dsect"><div class="dstitle">Recipients</div><div>${(w.recipients||[]).map(r=>`<span class="rtag">${r}</span>`).join('')||'<span style="color:var(--faint);font-size:13px">None recorded</span>'}</div></div>
+    ${w.orig?`<div class="dsect"><div class="dstitle">Original text</div><div style="font-size:12px;color:var(--faint);font-style:italic;line-height:1.7;max-height:120px;overflow-y:auto;border:1px solid rgba(201,168,76,0.1);border-radius:5px;padding:8px">${w.orig}</div></div>`:''}
+    ${w.notes?`<div class="dsect"><div class="dstitle">Researcher notes</div><div style="font-size:13px;color:var(--muted);font-style:italic;line-height:1.6">${w.notes}</div></div>`:''}
+    <div class="btn-row">
+      <button class="btn btn-sm btn-p" onclick="aiWillAnalysis(${id})">↗ AI analysis</button>
+      <button class="btn btn-sm btn-d" onclick="delWill(${id})">Delete</button>
+    </div>
+    <div class="ai-result" id="detAI" style="display:none;margin-top:.8rem"></div>`;
+  document.getElementById('detModal').classList.add('open');
+}
+
+async function aiWillAnalysis(id){
+  const w=wills.find(x=>x.id===id);if(!w||!apiKey)return;
+  const el=document.getElementById('detAI');el.style.display='block';el.innerHTML='<span class="spin"></span>Analysing…';
+  try{
+    const text=await callGemini(`Analyse this Late Medieval English will in the context of women's agency, property rights, and social networks. Highlight what is typical, what is unusual, and what is significant for a thesis on women's roles in Late Medieval England.\n\nTestator: ${w.name}\nYear: ${w.year}\nStatus: ${w.status}, ${w.class}, ${w.region}\nLanguage: ${w.lang}\nBequests: ${(w.bequests||[]).join(', ')}\nRecipients: ${(w.recipients||[]).join(', ')}\nNotes: ${w.notes||'none'}`);
+    el.innerHTML=text.replace(/\n/g,'<br>');
+  }catch(e){el.innerHTML='Error: '+e.message;}
+}
+
+function editCur(){if(!curDetId)return;const w=wills.find(x=>x.id===curDetId);if(!w)return;closeDet();editId=w.id;document.getElementById('modalT').textContent='Edit will';document.getElementById('mName').value=w.name;document.getElementById('mYear').value=w.year;document.getElementById('mGender').value=w.gender||'Female';document.getElementById('mStatus').value=w.status;document.getElementById('mRegion').value=w.region;document.getElementById('mClass').value=w.class;document.getElementById('mLang').value=w.lang||'Latin';document.getElementById('mRef').value=w.ref||'';document.getElementById('mRec').value=(w.recipients||[]).join(', ');document.getElementById('mBeq').value=(w.bequests||[]).join(', ');document.getElementById('mOrig').value=w.orig||'';document.getElementById('mNotes').value=w.notes||'';document.getElementById('addModal').classList.add('open');}
+function delWill(id){if(!confirm('Delete this will?'))return;wills=wills.filter(w=>w.id!==id);save();closeDet();renderWills();}
+function closeDet(){document.getElementById('detModal').classList.remove('open');}
+
+// ── MAP ───────────────────────────────────────────────────────
+function rStat(reg,layer){
+  const rw=wills.filter(w=>w.region===reg);const total=rw.length;let val=total;
+  if(layer==='women')val=rw.filter(w=>w.gender==='Female').length;
+  else if(layer==='men')val=rw.filter(w=>w.gender==='Male').length;
+  else if(layer==='widow')val=rw.filter(w=>w.status==='Widow').length;
+  else if(layer==='wife')val=rw.filter(w=>w.status==='Wife').length;
+  else if(layer==='single')val=rw.filter(w=>w.status==='Single').length;
+  else if(layer==='gentry')val=rw.filter(w=>w.class==='Gentry').length;
+  else if(layer==='merchant')val=rw.filter(w=>w.class==='Merchant').length;
+  else if(layer==='craft')val=rw.filter(w=>w.class==='Craft').length;
+  else if(layer==='church')val=rw.filter(w=>(w.cat_ids||[]).includes('church')).length;
+  else if(layer==='latin')val=rw.filter(w=>w.lang==='Latin').length;
+  return{total,val,wills:rw};
+}
+
+function renderMap(){
+  const svg=document.getElementById('mapSvg');svg.innerHTML='';
+  const layer=document.getElementById('mapLayer').value;
+  const maxVal=Math.max(...Object.keys(REGIONS).map(r=>rStat(r,layer).val),1);
+  const ns='http://www.w3.org/2000/svg';
+
+  // England outline
+  const outline=document.createElementNS(ns,'path');
+  outline.setAttribute('d','M270,22 C320,18 375,38 408,72 C438,100 450,138 445,172 C460,198 464,230 452,256 C464,282 460,315 443,338 C450,365 436,395 414,415 C390,438 356,452 322,456 C298,468 268,472 244,466 C218,472 194,460 174,444 C150,438 126,422 110,400 C90,378 84,350 88,325 C76,298 72,268 84,242 C72,215 76,184 92,158 C106,135 128,116 152,102 C176,88 204,78 232,72 C248,68 258,44 270,22Z');
+  outline.setAttribute('fill','rgba(201,168,76,0.04)');outline.setAttribute('stroke','rgba(201,168,76,0.2)');outline.setAttribute('stroke-width','1.5');svg.appendChild(outline);
+
+  // Rivers (Severn)
+  const river=document.createElementNS(ns,'path');
+  river.setAttribute('d','M240,160 Q258,200 252,248 Q246,280 225,310 Q210,330 195,360');
+  river.setAttribute('fill','none');river.setAttribute('stroke','rgba(144,184,216,0.18)');river.setAttribute('stroke-width','2');svg.appendChild(river);
+
+  const tip=document.getElementById('mapTip');
+  Object.entries(REGIONS).forEach(([reg,info])=>{
+    const{total,val}=rStat(reg,layer);
+    const frac=maxVal>0?val/maxVal:0;
+    const r=Math.max(15,frac*32+12);
+    const opacity=0.2+frac*0.8;
+    const g=document.createElementNS(ns,'g');g.setAttribute('transform',`translate(${info.cx},${info.cy})`);g.style.cursor='pointer';
+
+    const pulse=document.createElementNS(ns,'circle');pulse.setAttribute('r',r+5);pulse.setAttribute('fill',`rgba(201,168,76,${opacity*0.12})`);g.appendChild(pulse);
+    const circ=document.createElementNS(ns,'circle');circ.setAttribute('r',r);circ.setAttribute('fill',`rgba(201,168,76,${opacity})`);circ.setAttribute('stroke','rgba(201,168,76,0.7)');circ.setAttribute('stroke-width','1.5');g.appendChild(circ);
+    const num=document.createElementNS(ns,'text');num.textContent=val;num.setAttribute('text-anchor','middle');num.setAttribute('dy','5');num.setAttribute('fill','rgba(245,237,214,0.95)');num.setAttribute('font-size','13');num.setAttribute('font-weight','500');num.setAttribute('font-family','EB Garamond,serif');g.appendChild(num);
+    const lbl=document.createElementNS(ns,'text');lbl.textContent=info.label;lbl.setAttribute('text-anchor','middle');lbl.setAttribute('dy',r+15);lbl.setAttribute('fill','rgba(201,168,76,0.7)');lbl.setAttribute('font-size','10');lbl.setAttribute('font-family','Crimson Pro,serif');lbl.setAttribute('font-style','italic');g.appendChild(lbl);
+
+    g.addEventListener('mouseover',()=>{
+      tip.style.display='block';tip.style.left=(info.cx+r+10)+'px';tip.style.top=(info.cy-25)+'px';
+      tip.innerHTML=`<strong style="color:var(--gold-l)">${reg}</strong><br>Total wills: ${total}<br>Current layer: ${val}<br><em style="font-size:10px;color:rgba(201,168,76,0.5)">Click to drill down →</em>`;
+    });
+    g.addEventListener('mouseout',()=>tip.style.display='none');
+    g.addEventListener('click',()=>openDrill(reg));
+    svg.appendChild(g);
+  });
+}
+
+function openDrill(reg){
+  curRegion=reg;const rw=wills.filter(w=>w.region===reg);
+  const fem=rw.filter(w=>w.gender==='Female').length;
+  const male=rw.filter(w=>w.gender==='Male').length;
+  const wid=rw.filter(w=>w.status==='Widow').length;
+  const church=rw.filter(w=>(w.cat_ids||[]).includes('church')).length;
+  const avgB=Math.round(rw.reduce((s,w)=>s+(w.bequests||[]).length,0)/Math.max(rw.length,1)*10)/10;
+  document.getElementById('drillPanel').style.display='block';
+  document.getElementById('drillTitle').textContent=`${reg} — ${rw.length} wills`;
+  document.getElementById('drillStats').innerHTML=[
+    {n:rw.length,l:'Total'},{n:fem,l:'Women'},{n:male,l:'Men'},
+    {n:wid,l:'Widows'},{n:church,l:'Church bequests'},{n:avgB,l:'Avg bequests'},
+  ].map(s=>`<div class="dstat"><div class="dstat-n">${s.n}</div><div class="dstat-l">${s.l}</div></div>`).join('');
+  renderDrillContent('gender');
+  document.getElementById('drillAI').style.display='none';
+}
+
+function renderDrillContent(type){
+  const rw=wills.filter(w=>w.region===curRegion);
+  let html='';
+  if(type==='gender'){
+    const fem=rw.filter(w=>w.gender==='Female').length,male=rw.filter(w=>w.gender==='Male').length,mx=Math.max(fem,male,1);
+    html=bRow('Female',fem,mx)+bRow('Male',male,mx);
+  }else if(type==='status'){
+    const obj={Widow:0,Wife:0,Single:0,Unknown:0};rw.forEach(w=>{if(obj[w.status]!==undefined)obj[w.status]++;});
+    const mx=Math.max(...Object.values(obj),1);html=Object.entries(obj).map(([k,v])=>bRow(k,v,mx)).join('');
+  }else if(type==='class'){
+    const obj={Gentry:0,Merchant:0,Craft:0,Peasant:0,Unknown:0};rw.forEach(w=>{if(obj[w.class]!==undefined)obj[w.class]++;});
+    const mx=Math.max(...Object.values(obj),1);html=Object.entries(obj).map(([k,v])=>bRow(k,v,mx)).join('');
+  }else if(type==='decade'){
+    const dec={};rw.forEach(w=>{const d=Math.floor(w.year/10)*10;dec[d]=(dec[d]||0)+1;});
+    const mx=Math.max(...Object.values(dec),1);html=Object.entries(dec).sort(([a],[b])=>+a-+b).map(([k,v])=>bRow(k+'s',v,mx)).join('');
+  }else if(type==='bequests'){
+    const cc={};rw.forEach(w=>(w.cat_ids||[]).forEach(c=>{cc[c]=(cc[c]||0)+1;}));
+    const cm={};BCATS.forEach(c=>cm[c.id]=c.name);
+    const mx=Math.max(...Object.values(cc),1);html=Object.entries(cc).sort(([,a],[,b])=>b-a).map(([k,v])=>bRow(cm[k]||k,v,mx)).join('');
+  }else if(type==='wills'){
+    const rw2=wills.filter(w=>w.region===curRegion);
+    html=rw2.map(w=>`<div class="witem" onclick="openDet(${w.id})"><div class="wihead"><div class="wname">${w.name}</div><div class="wmeta"><span>${w.year}</span><span>${w.status}</span></div></div><div class="wprev">${(w.bequests||[]).join(' · ')||'—'}</div></div>`).join('');
+  }
+  document.getElementById('drillContent').innerHTML=html||'<div class="empty">No data</div>';
+}
+function bRow(lbl,v,mx){return`<div class="brow"><div class="blbl" style="min-width:110px">${lbl}</div><div class="bwrap"><div class="bfill" style="width:${Math.round(v/(mx||1)*100)}%"></div></div><div class="bcnt">${v}</div></div>`;}
+function closeDrill(){document.getElementById('drillPanel').style.display='none';curRegion=null;}
+
+async function aiRegionAnalysis(){
+  if(!apiKey){alert('Please enter your Gemini API key.');return;}
+  const el=document.getElementById('drillAI');el.style.display='block';el.innerHTML='<span class="spin"></span>Generating regional analysis…';
+  const rw=wills.filter(w=>w.region===curRegion);
+  try{
+    const text=await callGemini(`Give a detailed historical analysis of the ${rw.length} wills from ${curRegion} in my database. Focus on what they reveal about women's social roles, networks, and agency in Late Medieval England. Data summary: ${rw.map(w=>`${w.name} (${w.year}, ${w.status}, ${w.class}): bequests to ${(w.recipients||[]).join(', ')}`).join('; ')}`);
+    el.innerHTML=text.replace(/\n/g,'<br>');
+  }catch(e){el.innerHTML='Error: '+e.message;}
+}
+
+// ── NETWORK ───────────────────────────────────────────────────
+function renderNetwork(){
+  const svg=document.getElementById('netSvg');
+  const W=svg.parentElement.clientWidth||680,H=420;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML='';
+  const type=document.getElementById('netType').value;
+  const nodes=[],links=[],nmap={};
+  wills.forEach(w=>{const n={id:'w'+w.id,label:w.name,type:'will',year:w.year,status:w.status};nodes.push(n);nmap[n.id]=n;});
+  wills.forEach(w=>{
+    (w.recipients||[]).forEach(r=>{
+      const rl=r.toLowerCase();
+      const isChurch=rl.includes('church')||rl.includes('abbey')||rl.includes('priory')||rl.includes('cathedral');
+      const isInst=rl.includes('guild')||rl.includes('chantry')||rl.includes('hospital');
+      const nt=isChurch?'church':isInst?'institution':'person';
+      const key='r_'+r.replace(/\W/g,'_').toLowerCase();
+      if(!nmap[key]){const n={id:key,label:r,type:nt};nodes.push(n);nmap[key]=n;}
+      const show=type==='all'||(type==='family'&&nt==='person')||(type==='institution'&&(nt==='church'||nt==='institution'));
+      if(show)links.push({s:'w'+w.id,t:key});
+    });
+  });
+  const visIds=new Set();links.forEach(l=>{visIds.add(l.s);visIds.add(l.t);});
+  const vis=nodes.filter(n=>visIds.has(n.id));
+  const cx=W/2,cy=H/2;
+  const wn=vis.filter(n=>n.type==='will'),on=vis.filter(n=>n.type!=='will');
+  wn.forEach((n,i)=>{const a=i/Math.max(wn.length,1)*Math.PI*2;const r=Math.min(W,H)*.2;n.x=cx+Math.cos(a)*r;n.y=cy+Math.sin(a)*r;});
+  on.forEach((n,i)=>{const a=i/Math.max(on.length,1)*Math.PI*2+.4;const r=Math.min(W,H)*.38;n.x=cx+Math.cos(a)*r;n.y=cy+Math.sin(a)*r;});
+  const ns2='http://www.w3.org/2000/svg';
+  const cm={will:'#C9A84C',person:'#E8A0A0',institution:'#90B8D8',church:'#98D898'};
+  links.forEach(l=>{const s=nmap[l.s],t=nmap[l.t];if(!s||!t)return;const line=document.createElementNS(ns2,'line');line.setAttribute('x1',Math.round(s.x));line.setAttribute('y1',Math.round(s.y));line.setAttribute('x2',Math.round(t.x));line.setAttribute('y2',Math.round(t.y));line.setAttribute('stroke','rgba(201,168,76,0.18)');line.setAttribute('stroke-width','1');svg.appendChild(line);});
+  const tip=document.getElementById('nTip');
+  vis.forEach(n=>{
+    const g=document.createElementNS(ns2,'g');g.setAttribute('transform',`translate(${Math.round(n.x)},${Math.round(n.y)})`);g.style.cursor='pointer';
+    const r=n.type==='will'?13:8;
+    const c=document.createElementNS(ns2,'circle');c.setAttribute('r',r);c.setAttribute('fill',cm[n.type]||'#888');c.setAttribute('fill-opacity','.85');c.setAttribute('stroke',cm[n.type]||'#888');c.setAttribute('stroke-width','1.5');g.appendChild(c);
+    const tx=document.createElementNS(ns2,'text');tx.textContent=n.label.length>13?n.label.slice(0,12)+'…':n.label;tx.setAttribute('text-anchor','middle');tx.setAttribute('dy',r+11);tx.setAttribute('fill','rgba(245,237,214,0.65)');tx.setAttribute('font-size','9.5');tx.setAttribute('font-family','EB Garamond,serif');g.appendChild(tx);
+    g.addEventListener('mouseover',()=>{tip.style.display='block';tip.style.left=(n.x+18)+'px';tip.style.top=(n.y-10)+'px';tip.innerHTML=`<strong>${n.label}</strong><br><em style="font-size:11px">${n.type}${n.year?' · '+n.year:''}</em>`;});
+    g.addEventListener('mouseout',()=>tip.style.display='none');
+    if(n.type==='will')g.addEventListener('click',()=>openDet(parseInt(n.id.replace('w',''))));
+    svg.appendChild(g);
+  });
+  document.getElementById('netStats').innerHTML=[{n:vis.length,l:'Nodes'},{n:links.length,l:'Links'},{n:on.length,l:'Recipients'}].map(s=>`<div class="scard"><div class="snum">${s.n}</div><div class="slbl">${s.l}</div></div>`).join('');
+}
+
+// ── BEQUESTS ──────────────────────────────────────────────────
+function renderBequests(){
+  const cc={};wills.forEach(w=>(w.cat_ids||[]).forEach(c=>{cc[c]=(cc[c]||0)+1;}));
+  document.getElementById('bcatGrid').innerHTML=BCATS.map(c=>`<div class="bcat ${selBCat===c.id?'sel':''}" onclick="selCatF('${c.id}')"><span class="bcat-icon">${c.icon}</span><div class="bcat-name">${c.name}</div><div class="bcat-sub">${cc[c.id]||0} wills · ${c.sub}</div></div>`).join('');
+  renderCatDet();
+}
+function selCatF(id){selBCat=selBCat===id?null:id;renderBequests();}
+function renderCatDet(){
+  const el=document.getElementById('bcatDetail');if(!selBCat){el.innerHTML='';return;}
+  const cat=BCATS.find(c=>c.id===selBCat);const m=wills.filter(w=>(w.cat_ids||[]).includes(selBCat));
+  el.innerHTML=`<div class="card"><div class="ctitle">${cat.icon} ${cat.name} — ${m.length} wills</div><div class="wlist">${m.map(w=>`<div class="witem" onclick="openDet(${w.id})"><div class="wihead"><div class="wname">${w.name}</div><div class="wmeta"><span>${w.year}</span><span>${w.region}</span><span>${w.status}</span></div></div><div class="wprev">${(w.bequests||[]).join(' · ')}</div></div>`).join('')||'<div class="empty">No wills in this category.</div>'}</div></div>`;
+}
+function renderItems(){
+  const q=(document.getElementById('itemSearch')||{}).value||'';
+  const items=[];wills.forEach(w=>(w.bequests||[]).forEach(b=>items.push({text:b,will:w.name,year:w.year})));
+  const f=items.filter(i=>!q||i.text.toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('itemList').innerHTML=f.length?f.map(i=>`<div class="witem" style="cursor:default"><div class="wihead"><div style="font-size:14px;font-style:italic;color:var(--gold-l)">${i.text}</div><div class="wmeta"><span>${i.year}</span></div></div><div class="wprev">${i.will}</div></div>`).join(''):'<div class="empty">No items match.</div>';
+}
+function renderPatterns(){
+  document.getElementById('patternPanel').innerHTML=PATTERNS.map(p=>`<div class="insight"><div class="ititle">${p.t}</div><div class="itext">${p.b}</div></div>`).join('')+`<div style="text-align:center;margin-top:1rem"><button class="btn btn-p" onclick="aiPatterns()">↗ Deep AI pattern analysis</button><div class="ai-result" id="patternAI" style="display:none;margin-top:.8rem"></div></div>`;
+}
+async function aiPatterns(){
+  if(!apiKey){alert('Please enter your Gemini API key.');return;}
+  const el=document.getElementById('patternAI');el.style.display='block';el.innerHTML='<span class="spin"></span>Generating pattern analysis…';
+  try{
+    const text=await callGemini(`Using my Worcester and Bristol wills database (${wills.length} wills), produce a deep pattern analysis connecting bequest categories, recipient gender, testator class and marital status. What are the most significant connections and what might I have missed for my thesis on women's agency in Late Medieval England?\n\nData: ${wills.map(w=>`${w.name}(${w.year},${w.status},${w.class}):bequests=${(w.bequests||[]).join('|')};recipients=${(w.recipients||[]).join('|')}`).join('\n')}`);
+    el.innerHTML=text.replace(/\n/g,'<br>');
+  }catch(e){el.innerHTML='Error: '+e.message;}
+}
+
+// ── ANALYSIS ──────────────────────────────────────────────────
+function renderAnalysis(){
+  const tot=wills.length,fem=wills.filter(w=>w.gender==='Female').length;
+  const wid=wills.filter(w=>w.status==='Widow').length;
+  const church=wills.filter(w=>(w.cat_ids||[]).includes('church')).length;
+  const avgB=tot?Math.round(wills.reduce((s,w)=>s+(w.bequests||[]).length,0)/tot*10)/10:0;
+  const latin=wills.filter(w=>w.lang==='Latin').length;
+  document.getElementById('analysisCards').innerHTML=[
+    {t:'Widow rate',v:tot?Math.round(wid/tot*100)+'%':'-',s:'Largest group with testamentary freedom'},
+    {t:'Avg bequests/will',v:avgB,s:'Items bequeathed per will'},
+    {t:'Religious bequests',v:tot?Math.round(church/tot*100)+'%':'-',s:'Made church or monastic gifts'},
+    {t:'Latin wills',v:tot?Math.round(latin/tot*100)+'%':'-',s:'Proxy for status & period'},
+  ].map(c=>`<div class="card"><div class="ctitle">${c.t}</div><div style="font-size:30px;color:var(--gold-l);font-weight:500;margin:4px 0">${c.v}</div><div style="font-size:12px;color:var(--muted);font-style:italic">${c.s}</div></div>`).join('');
+  document.getElementById('thesisPoints').innerHTML=THESIS.map(p=>`<div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid rgba(201,168,76,0.09)"><span style="color:var(--gold);font-size:13px;margin-top:3px">◆</span><span style="font-size:13px;color:var(--muted);font-style:italic;line-height:1.6">${p}</span></div>`).join('');
+}
+async function aiThesis(){
+  if(!apiKey){alert('Please enter your Gemini API key.');return;}
+  const el=document.getElementById('analysisAI');el.style.display='block';el.innerHTML='<span class="spin"></span>Generating…';
+  try{
+    const text=await callGemini(`Based on my Worcester and Bristol wills database of 403 women's wills (1300–1500), suggest original thesis arguments about women's social agency, property rights, and network building in Late Medieval England. Consider marital status, class, region, language, bequest types, and recipient networks.`);
+    el.innerHTML=text.replace(/\n/g,'<br>');
+  }catch(e){el.innerHTML='Error: '+e.message;}
+}
+async function aiHistoriography(){
+  if(!apiKey){alert('Please enter your Gemini API key.');return;}
+  const el=document.getElementById('analysisAI');el.style.display='block';el.innerHTML='<span class="spin"></span>Generating…';
+  try{
+    const text=await callGemini(`What are the key historiographical debates and major scholars around women's wills, property rights, and social agency in Late Medieval England (1300–1500)? Include key works I should engage with for a thesis using Worcester and Bristol wills.`);
+    el.innerHTML=text.replace(/\n/g,'<br>');
+  }catch(e){el.innerHTML='Error: '+e.message;}
+}
+
+// ── START ─────────────────────────────────────────────────────
+load();
+renderOverview();
+</script>
+</body>
+</html>
