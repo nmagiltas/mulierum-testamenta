@@ -186,8 +186,8 @@ textarea{min-height:70px;resize:vertical}
 <!-- API KEY BANNER -->
 <div class="api-banner" id="apiBanner">
   <div style="font-size:12px;color:rgba(255,180,180,0.8);font-family:'Crimson Pro',serif;flex:0 0 auto">🔑 Gemini API Key:</div>
-  <input type="password" id="apiKeyInput" placeholder="Paste your AIza… key here" oninput="saveApiKey()">
-  <div class="api-status" id="apiStatus">Not connected — AI features disabled</div>
+  <input type="password" id="apiKeyInput" placeholder="Paste your AIzaSy… key here">
+  <button onclick="testApiKey()" style="padding:5px 12px;border-radius:4px;border:1px solid rgba(201,168,76,0.5);background:rgba(201,168,76,0.15);color:#F0DFA0;font-family:Crimson Pro,serif;font-size:13px;cursor:pointer;white-space:nowrap">Test &amp; Save</button><div class="api-status" id="apiStatus">Not connected</div>
 </div>
 
 <!-- NAV -->
@@ -491,6 +491,22 @@ function load(){
 function save(){try{localStorage.setItem(SK,JSON.stringify(wills));localStorage.setItem(NK,JSON.stringify(notes));}catch(e){}}
 function gid(){return Date.now()+Math.random();}
 
+function testApiKey(){
+  const k=document.getElementById('apiKeyInput').value.trim();
+  if(!k){alert('Please paste your Gemini API key first.');return;}
+  apiKey=k;
+  document.getElementById('apiStatus').textContent='Testing connection…';
+  const url='https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key='+k;
+  fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:'Say OK'}]}]})}).then(r=>r.json()).then(data=>{
+    if(data.error)throw new Error(data.error.message);
+    localStorage.setItem(AK,k);
+    document.getElementById('apiBanner').classList.add('ok');
+    document.getElementById('apiStatus').classList.add('ok');
+    document.getElementById('apiStatus').textContent='✓ Connected — AI features enabled';
+  }).catch(e=>{
+    document.getElementById('apiStatus').textContent='Error: '+e.message;
+  });
+}
 function saveApiKey(){
   apiKey=document.getElementById('apiKeyInput').value.trim();
   localStorage.setItem(AK,apiKey);
@@ -572,8 +588,9 @@ async function callGemini(prompt,imageBase64,imageMime){
   const parts=[];
   if(imageBase64)parts.push({inline_data:{mime_type:imageMime,data:imageBase64}});
   parts.push({text:prompt});
-  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts}]})});
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts}],generationConfig:{maxOutputTokens:2048}})});
+  if(!res.ok){const err=await res.json();throw new Error(err.error?.message||'API error '+res.status);}
   const data=await res.json();
   if(data.error)throw new Error(data.error.message);
   return data.candidates?.[0]?.content?.parts?.[0]?.text||'';
